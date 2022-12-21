@@ -17,10 +17,13 @@ func _physics_process(delta):
 
 func _unhandled_key_input(event):
 	if event.is_action_pressed("open_tile", false):
-		selected_tile.ShowTile();
+		if selected_tile == null:
+			return
+		if selected_tile.state != Tile.State.shown:
+			selected_tile.ShowTile();
 	pass;
 
-func MovePlayer(var dt : float) -> void:
+func MovePlayer(var dt : float):
 	#warning-ignore:SHADOWED_VARIABLE
 	var velocity : Vector2 = self.velocity;
 
@@ -39,7 +42,7 @@ func MovePlayer(var dt : float) -> void:
 	colision = move_and_collide(velocity * dt);
 	pass;
 
-func GetDirection() -> Vector2:
+func GetDirection():
 	var dir : Vector2 = direction;
 
 	dir.x = Input.get_axis("move_left", "move_right");
@@ -51,5 +54,12 @@ func _on_TileSelector_area_entered(area:Area2D):
 	if not area is Tile:
 		return;
 
+	print(area)
 	selected_tile = area;
 	pass;
+
+func _on_TileSelector_area_exited(area : Area2D):
+	if not area is Tile:
+		return;
+	selected_tile = null;
+	pass

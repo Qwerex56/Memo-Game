@@ -22,7 +22,6 @@ shape = SubResource( 1 )
 
 [node name="TileSelector" type="Area2D" parent="."]
 collision_layer = 0
-collision_mask = 0
 
 [node name="TileSelectorCollider" type="CollisionShape2D" parent="TileSelector"]
 shape = SubResource( 2 )
