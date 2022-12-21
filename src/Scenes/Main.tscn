@@ -1,13 +1,17 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://src/Game Elements/Grid.tscn" type="PackedScene" id=1]
-[ext_resource path="res://src/Game Elements/Player.tscn" type="PackedScene" id=2]
+[ext_resource path="res://src/GUI/Navigation.tscn" type="PackedScene" id=1]
+
+[sub_resource type="Environment" id=1]
+glow_enabled = true
+glow_high_quality = true
 
 [node name="Main" type="Node2D"]
 
-[node name="Grid" parent="." instance=ExtResource( 1 )]
-offset = Vector2( 0, 0 )
+[node name="GUI" type="CanvasLayer" parent="."]
 
-[node name="Player" parent="." instance=ExtResource( 2 )]
-position = Vector2( 287, 280 )
-move_speed = 200.0
+[node name="Navigation" parent="GUI" instance=ExtResource( 1 )]
+glow_color = Color( 0.96875, 0.96875, 0.287598, 1 )
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource( 1 )
