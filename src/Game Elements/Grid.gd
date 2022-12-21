@@ -1,6 +1,9 @@
 extends Node
 class_name Grid
 
+signal EndGame(hasWon)
+signal PairConnected()
+
 export var GRID_SIZE = 4
 export var CELL_SIZE : int = 64
 export var top_left_position : Vector2
@@ -12,8 +15,6 @@ const MAX_SHOWN_TILES = 2
 var tile_counter = 0
 
 var selected_tiles : Array= []
-
-signal EndGame(hasWon)
 
 func _enter_tree():
 	tiles = GenerateGrid()
@@ -41,7 +42,7 @@ func GenerateGrid():
 
 	for y in GRID_SIZE:
 		for x in GRID_SIZE:
-			grid[i].global_position = Vector2(x, y) * CELL_SIZE + top_left_position - offset * (GRID_SIZE - 1)
+			grid[i].global_position = Vector2(x, y) * CELL_SIZE + top_left_position
 			grid[i].global_position.x += offset.x * x
 			grid[i].global_position.y += offset.y * y
 			i += 1;
@@ -71,6 +72,8 @@ func CompareTiles():
 	selected_tiles = []
 	tile_counter = 0
 
+	emit_signal("PairConnected", GRID_SIZE * 2 - ((tiles.size() / 2) % (GRID_SIZE * 2)))
+
 	if tiles.empty():
 		emit_signal("EndGame", true)
 	pass
@@ -82,6 +85,13 @@ func _on_Tile_Show(tile : Tile):
 	selected_tiles.append(tile);
 	tile_counter += 1
 	CompareTiles()
+	pass
+
+func ClearGrid():
+	tile_counter = 0
+	selected_tiles = []
+	for tile in tiles:
+		tile.queue_free()
 	pass
 
 func _on_TimeLeft_timeout():

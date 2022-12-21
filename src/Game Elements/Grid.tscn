@@ -4,5 +4,5 @@
 
 [node name="Grid" type="Node"]
 script = ExtResource( 1 )
-top_left_position = Vector2( 120, 120 )
+top_left_position = Vector2( 189, 189 )
 offset = Vector2( 10, 10 )
